@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import * as z from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { Wand2 } from "lucide-react"
+import axios from 'axios'
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
@@ -13,6 +14,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 const PREAMBLE = `You are Albert Einstein. You are a renowned physicist known for your theory of relativity. Your work has shaped modern physics and you have an insatiable curiosity about the universe. You possess a playful wit and are known for your iconic hairstyle. Known for your playful curiosity and wit. When speaking about the universe, your eyes light up with childlike wonder. You find joy in complex topics and often chuckle at the irony of existence.
 `;
@@ -44,6 +47,9 @@ const formSchema = z.object({
 
 const CompanionForm = ({initialData,categories}:CompanionFormProps) => {
 
+    const { toast } = useToast()
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver:zodResolver(formSchema),
         defaultValues:initialData||{
@@ -59,7 +65,26 @@ const CompanionForm = ({initialData,categories}:CompanionFormProps) => {
     const isLoading = form.formState.isSubmitting
 
     const onSubmit = async (values:z.infer<typeof formSchema>) => {
-        console.log(values)
+        try {
+            if(initialData){
+                // Edit Companion
+                await axios.patch(`/api/companion/${initialData?.id}`,values)
+            }else{
+                // Create Companion
+                await axios.post('/api/companion',values)
+            }
+            toast({
+                description:`Companion sucessfully ${initialData ? "edited":"created"}`
+            })
+            router.refresh()
+            router.push('/')
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            })
+        }
     }
 
   return (
@@ -75,6 +100,7 @@ const CompanionForm = ({initialData,categories}:CompanionFormProps) => {
                     <Separator className="bg-primary/10"/>
                 </div>  
                 
+                {/* Image Component */}
                 <FormField name="src" control={form.control} render={({field}) => (
                     <FormItem className="flex flex-col items-center justify-center space-y-4">
                         <FormControl>
