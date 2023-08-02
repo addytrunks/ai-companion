@@ -34,7 +34,7 @@ interface CompanionFormProps{
 
 const formSchema = z.object({
     name:z.string().min(1),
-    description:z.string().min(1),
+    description:z.string().min(1).max(60),
     instructions:z.string().min(200,{
         message:'Instructions require atleast 200 characters'
     }),
