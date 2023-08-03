@@ -35,7 +35,7 @@ const Companions = ({data}:CompanionsProps) => {
                         <div className="relative w-40 h-32">
                             <Image src={item.src} fill className="rounded-xl object-cover" alt="companion"/>
                         </div>
-                        <p className="font-bold">{item.name}</p>
+                        <p className="font-bold text-gray-800">{item.name}</p>
                         <p className="text-xs">{item.description}</p>
                     </CardHeader>
                     <CardFooter className="flex items-center justify-between text-xs text-muted-foreground">
