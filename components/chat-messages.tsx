@@ -12,6 +12,7 @@ interface ChatMessagesProps{
 
 const ChatMessages = ({messages =[],companion,isLoading}:ChatMessagesProps) => {
 
+    // Scroll the web page's view to latest message
     const scrollRef = useRef<ElementRef<"div">>(null)
 
     const [fakeLoading,setFakeLoading] = useState(messages.length === 0 ? true:false)
