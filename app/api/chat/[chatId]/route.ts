@@ -20,7 +20,7 @@ export const POST = async(req:Request,{params}:{params:{chatId:string}}) => {
         const identifier = req.url + '-' + user.id
         const {success}  = await rateLimit(identifier)
 
-        if(!rateLimit){
+        if(!success){
             return new NextResponse('Rate limit exceeded',{status:429})
         }
 
