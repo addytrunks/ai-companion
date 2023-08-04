@@ -35,7 +35,7 @@ const ChatMessages = ({messages =[],companion,isLoading}:ChatMessagesProps) => {
         <ChatMessage isLoading={fakeLoading} src={companion.src} role="system" content={`Hello I am ${companion.name},${companion.description}`}/>
 
         {messages.map((message) => (
-            <ChatMessage role={message.role} key={message.content} content={message.content} src={message.src}/>
+            <ChatMessage role={message.role} key={message.content} content={message.content} src={companion.src}/>
         ))}
 
         {isLoading && (
