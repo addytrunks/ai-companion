@@ -24,10 +24,6 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-x-3">
-            <Button size="sm" variant="premium">
-                Upgrade                
-                <Sparkles className="w-4 h-4 fill-white text-white ml-2"/>
-            </Button>
             <ThemeToggle/>
             <UserButton afterSignOutUrl="/"/>
         </div>
