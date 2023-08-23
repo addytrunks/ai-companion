@@ -1,3 +1,4 @@
+// To prevent Prisma from re-initializing the client
 import {PrismaClient} from '@prisma/client'
 
 declare global{
